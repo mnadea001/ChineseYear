@@ -36,4 +36,6 @@ public class User {
 
     @NotBlank(message = "Birthyear is mandatory")
     private Integer birthyear;
+
+
 }
