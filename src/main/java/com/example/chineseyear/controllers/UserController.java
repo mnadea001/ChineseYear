@@ -3,18 +3,17 @@ package com.example.chineseyear.controllers;
 import com.example.chineseyear.entities.User;
 import com.example.chineseyear.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 
-@CrossOrigin(origins = "http://localhost:8081")
-@RestController
-@RequestMapping("/api")
+@Controller
 public class UserController {
 
     @Autowired
@@ -22,88 +21,87 @@ public class UserController {
 
 
     @GetMapping("/users")
-    public ResponseEntity<List<User>> getAllUsers(@RequestParam(required = false) String name) {
+    public String getAllUsers(Model model, @Param("keyword") String keyword) {
         try {
             List<User> users = new ArrayList<User>();
-
-            if (name == null)
-                userRepository.findAll().forEach(users::add);
-            else
-                userRepository.findByNameContaining(name).forEach(users::add);
-
-            if (users.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            if (keyword == null) {
+            userRepository.findAll().forEach(users::add);
+            } else {
+                userRepository.findByNameContaining(keyword).forEach(users::add);
+                model.addAttribute("keyword", keyword);
             }
-
-            return new ResponseEntity<>(users, HttpStatus.OK);
+            model.addAttribute("users", users);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            model.addAttribute("message", e.getMessage());
         }
+        return "users";
+    }
+
+    @GetMapping("/users/new")
+    public String addUser(Model model) {
+        User user = new User();
+//        user.setSign(sign);
+
+        model.addAttribute("user", user);
+        model.addAttribute("pageTitle", "Create new User");
+        return "user_form";
+    }
+
+    @PostMapping("/users/save")
+    public String saveUser(User user, RedirectAttributes redirectAttributes) {
+        try {
+            userRepository.save(user);
+
+            redirectAttributes.addFlashAttribute("message", "The account has been saved successfully!");
+        } catch (Exception e) {
+            redirectAttributes.addAttribute("message", e.getMessage());
+        }
+        return "redirect:/users";
     }
 
     @GetMapping("/users/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable("id") long id) {
-        Optional<User> userData = userRepository.findById(id);
-
-        if (userData.isPresent()) {
-            return new ResponseEntity<>(userData.get(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @PostMapping("/users")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    public String editUser(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes) {
         try {
-            User _user = userRepository
-                    .save(new User(user.getName(), user.getPrenom(), user.getEmail(),user.getAdresse(),user.getVille(),user.getCp(),user.getPays(),user.getBirthyear()));
-            return new ResponseEntity<>(_user, HttpStatus.CREATED);
+            User user = userRepository.findById(id).get();
+
+            model.addAttribute("user", user);
+            model.addAttribute("pageTitle", "Edit Tutorial (ID: " + id + ")");
+
+            return "tutorial_form";
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+            redirectAttributes.addFlashAttribute("message", e.getMessage());}
+
+            return "user_form";
     }
-
-    @PutMapping("/users/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable("id") long id, @RequestBody User user) {
-        Optional<User> userData = userRepository.findById(id);
-
-        if (userData.isPresent()) {
-            User _user = userData.get();
-            _user.setName(user.getName());
-            _user.setPrenom(user.getPrenom());
-            _user.setEmail(user.getEmail());
-            _user.setAdresse(user.getAdresse());
-            _user.setVille(user.getVille());
-            _user.setPays(user.getPays());
-            _user.setCp(user.getCp());
-            _user.setBirthyear(user.getBirthyear());
-            return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @DeleteMapping("/users/{id}")
-    public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") long id) {
+    @GetMapping("/users/delete/{id}")
+    public String deleteUser(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes) {
         try {
             userRepository.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
 
-    @DeleteMapping("/users")
-    public ResponseEntity<HttpStatus> deleteAllUsers() {
-        try {
-            userRepository.deleteAll();
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            redirectAttributes.addFlashAttribute("message", "The User with id=" + id + " has been deleted successfully!");
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
         }
-
+        return "redirect:/users";
     }
 
 
+
+//    @GetMapping("/users/{id}/{status}")
+//    public String calculateChineseSign(@PathVariable("id") Integer id, @PathVariable("sign") string sign,
+//                                                Model model, RedirectAttributes redirectAttributes) {
+//
+//    try {
+//      tutorialRepository.updateChineseSign(id, sign);
+//
+//      String status = sign ? "Lapin" : "Tiger";
+//      String message = "You are id=" + id + " is " + sign;
+//
+//      redirectAttributes.addFlashAttribute("message", message);
+//    } catch (Exception e) {
+//      redirectAttributes.addFlashAttribute("message", e.getMessage());
+//    }
+//        return "redirect:/users";
+//    }
 
 }
