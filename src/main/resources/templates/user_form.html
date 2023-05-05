@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0" />
+    <title>Chinese Year</title>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+    <script defer type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script defer type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</head>
+
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<h2 class="text-center">[[${pageTitle}]]</h2>
+
+<div class="my-3">
+    <form th:action="@{/users/save}" method="post" enctype="multipart/form-data" th:object="${user}"
+          style="max-width: 550px; margin: 0 auto">
+
+        <input type="hidden" th:field="*{id}" />
+
+        <div class="p-3">
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label" for="name">Name</label>
+                <div class="col-sm-9">
+                    <input type="text" th:field="*{name}" required minlength="2" maxlength="128" class="form-control"
+                           id="name" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label" for="prenom">Prenom</label>
+                <div class="col-sm-9">
+                    <input type="text" th:field="*{prenom}" required minlength="2" maxlength="128" class="form-control"
+                           id="prenom" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label" for="email">Email</label>
+                <div class="col-sm-9">
+                    <input type="text" th:field="*{email}" required minlength="2" maxlength="128" class="form-control"
+                           id="email" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label" for="adresse">Adresse</label>
+                <div class="col-sm-9">
+                    <input type="text" th:field="*{adresse}" required minlength="2" maxlength="128" class="form-control"
+                           id="adresse" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label" for="ville">Ville</label>
+                <div class="col-sm-9">
+                    <input type="text" th:field="*{ville}" required minlength="2" maxlength="128" class="form-control"
+                           id="ville" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label" for="pays">Pays</label>
+                <div class="col-sm-9">
+                    <input type="text" th:field="*{pays}" required minlength="2" maxlength="128" class="form-control"
+                           id="pays" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label" for="cp">CP</label>
+                <div class="col-sm-9">
+                    <input type="text" step="1" th:field="*{cp}" required minlength="2" maxlength="128"
+                           class="form-control" id="cp" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label" for="birthyear">Birthyear</label>
+                <div class="col-sm-9">
+                    <input type="number" step="1" th:field="*{birthyear}" required min="1"
+                           class="form-control" id="birthyear" />
+                </div>
+            </div>
+
+<!--            <div class="form-group row">-->
+<!--                <label class="col-sm-3 form-check-label" for="published">Published</label>-->
+<!--                <div class="col-sm-9">-->
+<!--                    <input type="checkbox" th:field="*{published}" />-->
+<!--                </div>-->
+<!--            </div>-->
+
+            <div class="text-center">
+                <input type="submit" value="Save" class="btn btn-primary btn-sm mr-2" />
+                <input type="button" value="Cancel" id="btnCancel" class="btn btn-secondary btn-sm" />
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+  $(document).ready(function () {
+    $("#btnCancel").on("click", function () {
+      window.location = "[[@{/users}]]";
+    });
+  });
+</script>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+
+</html>
