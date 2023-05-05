@@ -45,14 +45,14 @@
         <tbody>
         <tr th:each="user : ${users}">
             <th scope="row">[[${user.id}]]</th>
-            <td>[[${tutorial.name}]]</td>
-            <td>[[${tutorial.prenom}]]</td>
-            <td>[[${tutorial.email}]]</td>
-            <td>[[${tutorial.ville}]]</td>
-            <td>[[${tutorial.adresse}]]</td>
-            <td>[[${tutorial.pays}]]</td>
-            <td>[[${tutorial.cp}]]</td>
-            <td>[[${tutorial.birthyear}]]</td>
+            <td>[[${user.name}]]</td>
+            <td>[[${user.prenom}]]</td>
+            <td>[[${user.email}]]</td>
+            <td>[[${user.ville}]]</td>
+            <td>[[${user.adresse}]]</td>
+            <td>[[${user.pays}]]</td>
+            <td>[[${user.cp}]]</td>
+            <td>[[${user.birthyear}]]</td>
 <!--            <td>-->
 <!--                <a th:if="${tutorial.published == true}" class="fa-regular fa-square-check"-->
 <!--                   th:href="@{'/tutorials/' + ${tutorial.id} + '/published/false'}" title="Disable this tutorial"></a>-->
@@ -60,7 +60,7 @@
 <!--                   th:href="@{'/tutorials/' + ${tutorial.id} + '/published/true'}" title="Enable this tutorial"></a>-->
 <!--            </td>-->
             <td>
-                <a th:href="@{'/users/' + ${users.id}}" title="Edit user profile"
+                <a th:href="@{'/users/' + ${user.id}}" title="Edit user profile"
                    class="fa-regular fa-pen-to-square icon-dark"></a>
 
                 <a th:href="@{'/users/delete/' + ${user.id}}" th:userName="${user.name}" id="btnDelete"

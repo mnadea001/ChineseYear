@@ -65,9 +65,9 @@ public class UserController {
             User user = userRepository.findById(id).get();
 
             model.addAttribute("user", user);
-            model.addAttribute("pageTitle", "Edit Tutorial (ID: " + id + ")");
+            model.addAttribute("pageTitle", "Edit User (ID: " + id + ")");
 
-            return "tutorial_form";
+            return "user_form";
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("message", e.getMessage());}
 
