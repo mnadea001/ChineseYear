@@ -11,7 +11,7 @@ public class Year {
     private long id;
 
     @Column(name = "yearDate")
-    private String yearDate;
+    private Integer yearDate;
 
     @ManyToOne
     @JoinColumn(name = "sign_id")
@@ -36,15 +36,15 @@ public class Year {
         this.id = id;
     }
 
-    public String getYearDate() {
+    public Integer getYearDate() {
         return yearDate;
     }
 
-    public void setYearDate(String yearDate) {
+    public void setYearDate(Integer yearDate) {
         this.yearDate = yearDate;
     }
 
-    public Year(long id, String yearDate, Sign sign) {
+    public Year(long id, Integer yearDate, Sign sign) {
         this.id = id;
         this.yearDate = yearDate;
         this.sign = sign;
