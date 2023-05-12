@@ -11,6 +11,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Controller
@@ -25,7 +26,7 @@ public class UserController {
         try {
             List<User> users = new ArrayList<User>();
             if (keyword == null) {
-            userRepository.findAll().forEach(users::add);
+                userRepository.findAll().forEach(users::add);
             } else {
                 userRepository.findByNameContaining(keyword).forEach(users::add);
                 model.addAttribute("keyword", keyword);
@@ -73,6 +74,17 @@ public class UserController {
 
             return "user_form";
     }
+
+    @GetMapping("/users/details/{id}")
+    public String getUserDetails(@PathVariable Long id, Model model) {
+        User user = userRepository.findById(id).get();
+        String chineseZodiac = user.getChineseZodiac();
+        model.addAttribute("user", user);
+        model.addAttribute("chineseZodiac", chineseZodiac);
+        return "userDetails";
+    }
+
+
     @GetMapping("/users/delete/{id}")
     public String deleteUser(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes) {
         try {
@@ -84,24 +96,5 @@ public class UserController {
         }
         return "redirect:/users";
     }
-
-
-
-//    @GetMapping("/users/{id}/{status}")
-//    public String calculateChineseSign(@PathVariable("id") Integer id, @PathVariable("sign") string sign,
-//                                                Model model, RedirectAttributes redirectAttributes) {
-//
-//    try {
-//      tutorialRepository.updateChineseSign(id, sign);
-//
-//      String status = sign ? "Lapin" : "Tiger";
-//      String message = "You are id=" + id + " is " + sign;
-//
-//      redirectAttributes.addFlashAttribute("message", message);
-//    } catch (Exception e) {
-//      redirectAttributes.addFlashAttribute("message", e.getMessage());
-//    }
-//        return "redirect:/users";
-//    }
 
 }
