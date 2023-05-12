@@ -20,17 +20,7 @@ public class SignController {
     @Autowired
     SignRepository signRepository;
 
-    @GetMapping("/signs/delete/{id}")
-    public String deleteSign(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes) {
-        try {
-            signRepository.deleteById(id);
 
-            redirectAttributes.addFlashAttribute("message", "The Sign with id=" + id + " has been deleted successfully!");
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("message", e.getMessage());
-        }
-        return "redirect:/signs";
-    }
 
 //    public void defineSignYearDate() {
 //        List<Sign> sign = repository.findByLastname("Matthews");
@@ -84,7 +74,17 @@ public class SignController {
     }
 
 
+    @GetMapping("/signs/delete/{id}")
+    public String deleteSign(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes) {
+        try {
+            signRepository.deleteById(id);
 
+            redirectAttributes.addFlashAttribute("message", "The Sign with id=" + id + " has been deleted successfully!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+        }
+        return "redirect:/signs";
+    }
 
 
 }

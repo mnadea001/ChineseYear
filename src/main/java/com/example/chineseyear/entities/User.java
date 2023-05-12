@@ -42,13 +42,14 @@ public class User {
     @Column(name = "birthyear")
     private Integer birthyear;
 
+    @ManyToOne
+    @JoinColumn(name = "sign_id")
+    private Sign sign;
+
     public User() {
     }
 
-    public User(String name, String prenom, String email, String adresse, String ville, String cp, String pays, Integer birthyear) {
-    }
-
-    public User(Long id, String name, String prenom, String email, String adresse, String ville, String cp, @NotBlank(message = "Pays is mandatory") String pays, Integer birthyear) {
+    public User(long id, String name, String prenom, String email, String adresse, String ville, String cp, String pays, Integer birthyear, Sign sign) {
         this.id = id;
         this.name = name;
         this.prenom = prenom;
@@ -58,6 +59,7 @@ public class User {
         this.cp = cp;
         this.pays = pays;
         this.birthyear = birthyear;
+        this.sign = sign;
     }
 
     @Override
@@ -145,5 +147,15 @@ public class User {
 
     public void setBirthyear(Integer birthyear) {
         this.birthyear = birthyear;
+    }
+
+    public Sign getSign() {
+        return sign;
+    }
+
+    public void setSign(Sign sign) {
+
+
+        this.sign = sign;
     }
 }
