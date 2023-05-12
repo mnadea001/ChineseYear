@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -18,6 +19,32 @@ public class SignController {
 
     @Autowired
     SignRepository signRepository;
+
+    @GetMapping("/signs/delete/{id}")
+    public String deleteSign(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes) {
+        try {
+            signRepository.deleteById(id);
+
+            redirectAttributes.addFlashAttribute("message", "The Sign with id=" + id + " has been deleted successfully!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+        }
+        return "redirect:/signs";
+    }
+
+//    public void defineSignYearDate() {
+//        List<Sign> sign = repository.findByLastname("Matthews");
+//    }
+
+//    @RequestMapping(value = "/students/{id}")
+//    public Optional<Student> getStudent(@PathVariable String id) {
+//        return studentService.getStudent(id);
+//    }
+
+//@RequestMapping(value = "/locations/name/{name}")
+//public List<Location> getLocationByName(@PathVariable String name) {
+//    return locationService.getLocationsByName(name);
+//}
 
     @GetMapping("/signs")
     public String getAllSigns(Model model, @Param("keyword") String keyword) {
