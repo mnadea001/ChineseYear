@@ -34,9 +34,7 @@
                         <h5 class="card-title">[[${product.name}]]</h5>
                         <p class="card-text">[[${product.description}]]</p>
                         <p class="card-text">[[${product.price}]]</p>
-                        <a href="#" class="btn btn-primary">Acheter</a>
-                        <a th:href="@{/addProduct/{id}(id=${product.id})}">Ajouter</a>
-                        <a th:href="@{/removeProduct/{id}(id=${product.id})}">Retirer</a>
+                        <a class="btn btn-primary" th:href="@{/addProduct/{id}(id=${product.id})}">Acheter</a>
                     </div>
                 </div>
             </div>
@@ -49,15 +47,15 @@
     <h2>Produits ajoutés :</h2>
     <table>
         <tr>
-            <th>ID</th>
-            <th>Nom</th>
+            <th>Produit</th>
             <th>Prix</th>
+            <th></th>
         </tr>
         <tbody>
         <tr th:each="product : ${addedProducts}">
-            <td th:text="${product.id}"></td>
             <td th:text="${product.name}"></td>
             <td th:text="${product.price}"></td>
+            <td> <a  class="btn btn-primary" th:href="@{/removeProduct/{id}(id=${product.id})}">Retirer</a></td>
         </tr>
         </tbody>
     </table>
