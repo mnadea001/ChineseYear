@@ -22,7 +22,8 @@
 
 <body>
 <div th:replace="fragments/header :: header"></div>
-<div class="col-10">
+<div class="row">
+<div class="col-8">
     <h1 class="text-center">All products</h1>
     <div class="d-flex flex-row">
         <div th:if="${products.size() > 0}">
@@ -33,12 +34,37 @@
                         <h5 class="card-title">[[${product.name}]]</h5>
                         <p class="card-text">[[${product.description}]]</p>
                         <p class="card-text">[[${product.price}]]</p>
-                        <a href="#" class="btn btn-primary">Acheter</a>
+                        <a class="btn btn-primary" th:href="@{/addProduct/{id}(id=${product.id})}">Acheter</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+
+</div>
+<div class="col-4">
+    <h2>Produits ajoutés :</h2>
+    <table>
+        <tr>
+            <th>Produit</th>
+            <th>Prix</th>
+            <th></th>
+        </tr>
+        <tbody>
+        <tr th:each="product : ${addedProducts}">
+            <td th:text="${product.name}"></td>
+            <td th:text="${product.price}"></td>
+            <td> <a  class="btn btn-primary" th:href="@{/removeProduct/{id}(id=${product.id})}">Retirer</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <h3>Total : <span th:text="${totalPrice}"></span></h3>
+    <div th:if="${totalPrice > 50}">
+        <p>Votre commande est éligible pour une réduction de 8€ !</p>
+        <h3>Prix avant réduction : <span th:text="${totalPrice} + 8"></span></h3>
+    </div>
+</div>
 </div>
 <div th:replace="fragments/footer :: footer"></div>
 </body>
