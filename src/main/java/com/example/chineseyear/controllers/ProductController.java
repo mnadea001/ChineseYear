@@ -41,7 +41,11 @@ public class ProductController {
     }
 
     private double calculateTotalPrice() {
-        return addedProducts.stream().mapToDouble(Product::getPrice).sum();
+        double totalPrice = addedProducts.stream().mapToDouble(Product::getPrice).sum();
+        if (totalPrice > 50) {
+            totalPrice -= 8;
+        }
+        return totalPrice;
     }
 
 }
