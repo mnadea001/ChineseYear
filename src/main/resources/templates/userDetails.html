@@ -34,8 +34,8 @@
 
         <p class="text-center">Vous etes le signe : [[${user.chineseZodiac}]]</p>
 
-        <a class="btn btn-warning p-2 m-2" th:href="@{/users/52}">Edit profile</a>
-        <a class="btn btn-danger p-2 m-2" th:href="@{/users/delete/52}">Delete profile</a>
+        <a class="btn btn-warning p-2 m-2" th:href="@{'/users/' + ${user.id}}">Edit profile</a>
+        <a class="btn btn-danger p-2 m-2" th:href="@{'/users/delete/' + ${user.id}}">Delete profile</a>
     </div>
 </div>
 <div th:replace="fragments/footer :: footer"></div>
