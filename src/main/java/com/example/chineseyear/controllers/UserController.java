@@ -41,8 +41,6 @@ public class UserController {
     @GetMapping("/users/new")
     public String addUser(Model model) {
         User user = new User();
-//        user.setSign(sign);
-
         model.addAttribute("user", user);
         model.addAttribute("pageTitle", "Create new User");
         return "user_form";

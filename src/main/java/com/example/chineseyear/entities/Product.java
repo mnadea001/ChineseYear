@@ -3,6 +3,8 @@ package com.example.chineseyear.entities;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "products")
 public class Product {
@@ -18,16 +20,28 @@ public class Product {
     @Column(nullable = false)
     private String description;
 
-    @Column(nullable = false)
-    private Long price;
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal price;
 
     @Column(nullable = false)
     private String imageFile;
 
+    @ManyToOne
+    @JoinColumn(name = "cart_id", referencedColumnName = "id")
+    private Cart cart;
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
+
     public Product() {
     }
 
-    public Product(Long id, String name, String description, Long price, String imageFile) {
+    public Product(Long id, String name, String description, BigDecimal price, String imageFile) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -59,11 +73,11 @@ public class Product {
         this.description = description;
     }
 
-    public Long getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
