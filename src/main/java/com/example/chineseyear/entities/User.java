@@ -42,13 +42,11 @@ public class User {
     @Column(name = "birthyear")
     private Integer birthyear;
 
+
     public User() {
     }
 
-    public User(String name, String prenom, String email, String adresse, String ville, String cp, String pays, Integer birthyear) {
-    }
-
-    public User(Long id, String name, String prenom, String email, String adresse, String ville, String cp, @NotBlank(message = "Pays is mandatory") String pays, Integer birthyear) {
+    public User(long id, String name, String prenom, String email, String adresse, String ville, String cp, String pays, Integer birthyear) {
         this.id = id;
         this.name = name;
         this.prenom = prenom;
@@ -145,5 +143,13 @@ public class User {
 
     public void setBirthyear(Integer birthyear) {
         this.birthyear = birthyear;
+    }
+
+    public String getChineseZodiac() {
+        String[] zodiacs = {"Singe", "Coq", "Chien", "Cochon", "Rat", "Buffle", "Tigre", "Lapin", "Dragon", "Serpent", "Cheval", "Mouton"};
+        int startYear = 1900; // année de référence
+        int offset = 4; // décalage de 4 ans pour le début du cycle
+        int index = (this.birthyear - startYear + offset) % 12;
+        return zodiacs[index];
     }
 }
