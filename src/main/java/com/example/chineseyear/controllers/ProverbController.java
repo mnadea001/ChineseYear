@@ -24,4 +24,11 @@ public class ProverbController {
         model.addAttribute("proverb", randomProverb);
         return "randomProverb";
     }
+
+    @GetMapping("/")
+    public String getHome(Model model) {
+        Proverb randomProverb = proverbRepository.findRandomProverb();
+        model.addAttribute("proverb", randomProverb);
+        return "index";
+    }
 }
