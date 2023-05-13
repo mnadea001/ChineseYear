@@ -152,4 +152,5 @@ public class User {
         int index = (this.birthyear - startYear + offset) % 12;
         return zodiacs[index];
     }
+
 }
