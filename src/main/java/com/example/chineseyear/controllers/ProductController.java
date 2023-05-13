@@ -35,10 +35,6 @@ public class ProductController {
         return productRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-//    @PostMapping("/products")
-//    public Product addProduct(@RequestBody Product product) {
-//        return productRepository.save(product);
-//    }
 
     @DeleteMapping("/products/{id}")
     public void deleteProduct(@PathVariable Long id) {
