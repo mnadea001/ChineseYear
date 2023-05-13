@@ -17,7 +17,9 @@
 
 <body>
 <div th:replace="fragments/header :: header"></div>
-<p th:text="${proverb.text}"></p>
+
+<p>Random Proverb:</p>
+<h1>[[${proverb.text}]]</h1>
 <div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>
