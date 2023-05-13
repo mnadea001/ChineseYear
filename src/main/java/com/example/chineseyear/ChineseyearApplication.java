@@ -8,6 +8,7 @@ public class ChineseyearApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ChineseyearApplication.class, args);
+
 	}
 
 }
